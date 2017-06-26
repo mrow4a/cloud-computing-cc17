@@ -1,0 +1,76 @@
+heat_template_version: 2015-10-15
+description: One frontend server
+
+parameters:
+
+key_pair:
+        type: string
+        label: Key Pair
+        constraints:
+            - custom_constraint: nova.keypair
+
+
+resources:
+
+web_secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: tcp
+          remote_ip_prefix: 0.0.0.0/0
+          port_range_min: 80
+          port_range_max: 80
+        - protocol: tcp
+          remote_ip_prefix: 0.0.0.0/0
+          port_range_min: 22
+          port_range_max: 22
+
+floating_ip:
+    type: OS::Nova::FloatingIP
+    properties:
+      pool: public
+
+
+    # This port is a separate resource used to assign the security groups
+    # to the VM. Can also be used to attach a OS::Neutron::FloatingIP to the VM.
+    port:
+        type: OS::Neutron::Port
+        properties:
+            network: { get_resource: new_subnet }
+            name:
+                str_replace:
+                    template: port-VM_NAME
+                    params:
+                        VM_NAME: FrontEndVM
+            security_groups:
+        			- default
+        			- { get_resource: web_secgroup }
+    
+    instance:
+        type: OS::Nova::Server
+        properties:
+            name: FrontEndVM
+            key_name: { get_param: key_pair }
+            image: ubuntu-16.04
+            flavor: Cloud Computing
+            availability_zone: Cloud Computing 2017
+            networks:
+                - port: { get_resource: port }
+	
+    association:
+    		type: OS::Nova::FloatingIPAssociation
+    		properties:
+      		floating_ip: { get_resource: floating_ip }
+      		server_id: { get_resource: instance}
+
+outputs:
+    ip:
+        description: Virtual IP address of instance
+        value: { get_attr: [ instance, first_address ] }
+    port:
+        description: Port ID of instance
+        value: { get_resource: port }
+    floating_ip:
+	   description: Floating IP address of the FrontEnd
+	   value: { get_attr: [instance, floating_ip_address] }
+
