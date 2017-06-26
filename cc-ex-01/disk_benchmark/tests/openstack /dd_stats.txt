@@ -1,0 +1,140 @@
+=========== Test time: Sat Jun 17 14:14:48 UTC 2017 ==============
+$
+	Write
+dd: error writing 'tstfile': No space left on device
+478+0 records in
+477+0 records out
+250544128 bytes (251 MB, 239 MiB) copied, 0.779884 s, 321 MB/s
+$
+	Read
+477+1 records in
+477+1 records out
+250544128 bytes (251 MB, 239 MiB) copied, 0.105135 s, 2.4 GB/s
+$
+
+=========== Test time: Sat Jun 17 14:27:10 UTC 2017 ==============
+$
+	Write
+dd: error writing 'tstfile': No space left on device
+478+0 records in
+477+0 records out
+250535936 bytes (251 MB, 239 MiB) copied, 0.281127 s, 891 MB/s
+$
+	Read
+477+1 records in
+477+1 records out
+250535936 bytes (251 MB, 239 MiB) copied, 0.104373 s, 2.4 GB/s
+$
+
+=========== Test time: Sat Jun 17 14:27:30 UTC 2017 ==============
+$
+	Write
+dd: error writing 'tstfile': No space left on device
+478+0 records in
+477+0 records out
+250531840 bytes (251 MB, 239 MiB) copied, 0.157892 s, 1.6 GB/s
+$
+	Read
+477+1 records in
+477+1 records out
+250531840 bytes (251 MB, 239 MiB) copied, 0.104438 s, 2.4 GB/s
+$
+
+=========== Test time: Sat Jun 17 14:28:01 UTC 2017 ==============
+$
+	Write
+dd: error writing 'tstfile': No space left on device
+478+0 records in
+477+0 records out
+250531840 bytes (251 MB, 239 MiB) copied, 0.161052 s, 1.6 GB/s
+$
+	Read
+477+1 records in
+477+1 records out
+250531840 bytes (251 MB, 239 MiB) copied, 0.104099 s, 2.4 GB/s
+$
+
+=========== Test time: Sat Jun 17 14:28:14 UTC 2017 ==============
+$
+	Write
+dd: error writing 'tstfile': No space left on device
+478+0 records in
+477+0 records out
+250527744 bytes (251 MB, 239 MiB) copied, 0.158042 s, 1.6 GB/s
+$
+	Read
+477+1 records in
+477+1 records out
+250527744 bytes (251 MB, 239 MiB) copied, 0.105363 s, 2.4 GB/s
+$
+
+=========== Test time: Sat Jun 17 14:28:24 UTC 2017 ==============
+$
+	Write
+dd: error writing 'tstfile': No space left on device
+478+0 records in
+477+0 records out
+250523648 bytes (251 MB, 239 MiB) copied, 0.158164 s, 1.6 GB/s
+$
+	Read
+477+1 records in
+477+1 records out
+250523648 bytes (251 MB, 239 MiB) copied, 0.103967 s, 2.4 GB/s
+$
+
+=========== Test time: Sat Jun 17 14:29:01 UTC 2017 ==============
+$
+	Write
+dd: error writing 'tstfile': No space left on device
+478+0 records in
+477+0 records out
+250523648 bytes (251 MB, 239 MiB) copied, 0.159891 s, 1.6 GB/s
+$
+	Read
+477+1 records in
+477+1 records out
+250523648 bytes (251 MB, 239 MiB) copied, 0.104127 s, 2.4 GB/s
+$
+
+=========== Test time: Sat Jun 17 14:30:52 UTC 2017 ==============
+$
+	Write
+dd: error writing 'tstfile': No space left on device
+478+0 records in
+477+0 records out
+250519552 bytes (251 MB, 239 MiB) copied, 0.16006 s, 1.6 GB/s
+$
+	Read
+477+1 records in
+477+1 records out
+250519552 bytes (251 MB, 239 MiB) copied, 0.10423 s, 2.4 GB/s
+$
+
+=========== Test time: Sat Jun 17 14:31:03 UTC 2017 ==============
+$
+	Write
+dd: error writing 'tstfile': No space left on device
+478+0 records in
+477+0 records out
+250515456 bytes (251 MB, 239 MiB) copied, 0.169024 s, 1.5 GB/s
+$
+	Read
+477+1 records in
+477+1 records out
+250515456 bytes (251 MB, 239 MiB) copied, 0.106401 s, 2.4 GB/s
+$
+
+=========== Test time: Sat Jun 17 14:31:13 UTC 2017 ==============
+$
+	Write
+dd: error writing 'tstfile': No space left on device
+478+0 records in
+477+0 records out
+250515456 bytes (251 MB, 239 MiB) copied, 0.157773 s, 1.6 GB/s
+$
+	Read
+477+1 records in
+477+1 records out
+250515456 bytes (251 MB, 239 MiB) copied, 0.104499 s, 2.4 GB/s
+$
+

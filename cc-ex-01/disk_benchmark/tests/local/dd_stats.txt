@@ -1,0 +1,143 @@
+=========== Test time: Sat 17 Jun 2017 16:12:30 CEST ==============
+
+	Write
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.767592 secs (699422277 bytes/sec)
+
+	Read
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.443210 secs (1211323663 bytes/sec)
+
+
+=========== Test time: Sat 17 Jun 2017 16:18:23 CEST ==============
+
+	Write
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.970451 secs (553218019 bytes/sec)
+
+	Read
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.371083 secs (1446767654 bytes/sec)
+
+
+=========== Test time: Sat 17 Jun 2017 16:19:23 CEST ==============
+
+	Write
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.786734 secs (682404731 bytes/sec)
+
+	Read
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.417737 secs (1285188774 bytes/sec)
+
+
+=========== Test time: Sat 17 Jun 2017 16:20:23 CEST ==============
+
+	Write
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.800832 secs (670391405 bytes/sec)
+
+	Read
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.106477 secs (5042129288 bytes/sec)
+
+
+=========== Test time: Sat 17 Jun 2017 16:21:23 CEST ==============
+
+	Write
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.714111 secs (751803324 bytes/sec)
+
+	Read
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.361254 secs (1486131493 bytes/sec)
+
+
+=========== Test time: Sat 17 Jun 2017 16:22:23 CEST ==============
+
+	Write
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.749014 secs (716770292 bytes/sec)
+
+	Read
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.106848 secs (5024622871 bytes/sec)
+
+
+=========== Test time: Sat 17 Jun 2017 16:23:23 CEST ==============
+
+	Write
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.772952 secs (694572052 bytes/sec)
+
+	Read
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.115478 secs (4649116989 bytes/sec)
+
+
+=========== Test time: Sat 17 Jun 2017 16:24:23 CEST ==============
+
+	Write
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.733960 secs (731471471 bytes/sec)
+
+	Read
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.366522 secs (1464771021 bytes/sec)
+
+
+=========== Test time: Sat 17 Jun 2017 16:25:23 CEST ==============
+
+	Write
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.704621 secs (761928803 bytes/sec)
+
+	Read
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.107929 secs (4974297503 bytes/sec)
+
+
+=========== Test time: Sat 17 Jun 2017 16:26:23 CEST ==============
+
+	Write
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.822214 secs (652957728 bytes/sec)
+
+	Read
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.442525 secs (1213199302 bytes/sec)
+
+
+=========== Test time: Sat 17 Jun 2017 16:27:23 CEST ==============
+
+	Write
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.697153 secs (770090413 bytes/sec)
+
+	Read
+1024+0 records in
+1024+0 records out
+536870912 bytes transferred in 0.490005 secs (1095643706 bytes/sec)
+
+
