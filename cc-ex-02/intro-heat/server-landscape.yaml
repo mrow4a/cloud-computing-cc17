@@ -34,59 +34,63 @@ resources:
         dns_nameservers: [ "8.8.8.8", "8.8.4.4" ]
         ip_version: 4
 
-    # Create router
+    # Create router and attach it to tu-internal
     web_router:
        type: OS::Neutron::Router
        properties:
          name: group32-router
          external_gateway_info: { network: tu-internal }
 
-    # Create interface
+    # Create interface between router and subnet
     web_interface:
       type: OS::Neutron::RouterInterface
       properties:
         router_id: { get_resource: web_router }
         subnet: { get_resource: web_subnet }
 
-    # Create floating ip
+    # Create floating ip from tu-internal pool
     floating_ip:
       type: OS::Nova::FloatingIP
       properties:
         pool: tu-internal
 
-    # Associate instance with floating ip
+    # Associate frontend instance with floating ip so it can be access from public
     association:
       type: OS::Nova::FloatingIPAssociation
       properties:
         floating_ip: { get_resource: floating_ip }
         server_id: { get_resource: frontend }
 
-    # Create security group
+    # Create security group for frontend
     web_secgroup:
         type: OS::Neutron::SecurityGroup
         properties:
           name: group32-web-secgroup
           rules:
+            # Allow HTTP to frontend from any ip
             - protocol: tcp
               remote_ip_prefix: 0.0.0.0/0
               port_range_min: 80
               port_range_max: 80
+            # Allow SSH to frontend from any ip
             - protocol: tcp
               remote_ip_prefix: 0.0.0.0/0
               port_range_min: 22
               port_range_max: 22
 
-    # Create security group
+    # Create security group for backend
     backend_secgroup:
         type: OS::Neutron::SecurityGroup
         properties:
           name: group32-backend-secgroup
           rules:
+            # Allow ssh only from frontend server
             - protocol: tcp
               remote_ip_prefix: 10.12.2.0/24
               port_range_min: 22
               port_range_max: 22
 
+    # Create backend from server.yaml template
     backend:
       type: OS::Heat::ResourceGroup
       properties:
@@ -94,7 +98,9 @@ resources:
         resource_def:
           type: server.yaml
           properties:
+            # Connect it to private network
             network: { get_resource: web_net }
+            # Apply backend security restrictions
             security_groups:
               -  { get_resource: backend_secgroup }
             key_pair: { get_param: key_pair }
@@ -102,11 +108,15 @@ resources:
             image: { get_param: image }
             name: backend_%index%
 
+    # Create frontend from server.yaml template
     frontend:
       type: server.yaml
       properties:
+        # Connect it to private network
         network: { get_resource: web_net }
+        # Apply frontend security restrictions
         security_groups:
+            security_groups:
           - { get_resource: web_secgroup }
         key_pair: { get_param: key_pair }
         flavor: { get_param: flavor }
@@ -114,9 +124,11 @@ resources:
         name: frontend
 
 outputs:
+  # Output the frontend private ip
   instance_ip:
     description: IP address of the deployed compute instance
     value: { get_attr: [frontend, outputs, instance_ip] }
+  # Output the frontend floating ip
   floating_ip:
     description: Floating IP address of the FrontEnd
     value: { get_attr: [frontend, outputs, floating_ip] }
