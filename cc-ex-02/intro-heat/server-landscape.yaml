@@ -1,0 +1,122 @@
+heat_template_version: 2015-10-15
+description: Nested VMs
+
+parameters:
+    key_pair:
+        type: string
+        label: Key Pair
+        constraints:
+            - custom_constraint: nova.keypair
+    flavor:
+        type: string
+        label: Flavor
+        constraints:
+            - custom_constraint: nova.flavor
+    image:
+        type: string
+        label: Image Name
+        constraints:
+            - custom_constraint: glance.image
+resources:
+    # Create network
+    web_net:
+      type: OS::Neutron::Net
+      properties:
+        name: group32-net
+
+    # Create subnet
+    web_subnet:
+      type: OS::Neutron::Subnet
+      properties:
+        name: group32-subnet
+        network_id: { get_resource: web_net }
+        cidr: "10.12.2.0/24"
+        dns_nameservers: [ "8.8.8.8", "8.8.4.4" ]
+        ip_version: 4
+
+    # Create router
+    web_router:
+       type: OS::Neutron::Router
+       properties:
+         name: group32-router
+         external_gateway_info: { network: tu-internal }
+
+    # Create interface
+    web_interface:
+      type: OS::Neutron::RouterInterface
+      properties:
+        router_id: { get_resource: web_router }
+        subnet: { get_resource: web_subnet }
+
+    # Create floating ip
+    floating_ip:
+      type: OS::Nova::FloatingIP
+      properties:
+        pool: tu-internal
+
+    # Associate instance with floating ip
+    association:
+      type: OS::Nova::FloatingIPAssociation
+      properties:
+        floating_ip: { get_resource: floating_ip }
+        server_id: { get_resource: frontend }
+
+    # Create security group
+    web_secgroup:
+        type: OS::Neutron::SecurityGroup
+        properties:
+          name: group32-web-secgroup
+          rules:
+            - protocol: tcp
+              remote_ip_prefix: 0.0.0.0/0
+              port_range_min: 80
+              port_range_max: 80
+            - protocol: tcp
+              remote_ip_prefix: 0.0.0.0/0
+              port_range_min: 22
+              port_range_max: 22
+
+    # Create security group
+    backend_secgroup:
+        type: OS::Neutron::SecurityGroup
+        properties:
+          name: group32-backend-secgroup
+          rules:
+            - protocol: tcp
+              remote_ip_prefix: 10.12.2.0/24
+              port_range_min: 22
+              port_range_max: 22
+
+    backend:
+      type: OS::Heat::ResourceGroup
+      properties:
+        count: 2
+        resource_def:
+          type: server.yaml
+          properties:
+            network: { get_resource: web_net }
+            security_groups:
+              -  { get_resource: backend_secgroup }
+            key_pair: { get_param: key_pair }
+            flavor: { get_param: flavor }
+            image: { get_param: image }
+            name: backend_%index%
+
+    frontend:
+      type: server.yaml
+      properties:
+        network: { get_resource: web_net }
+        security_groups:
+          - { get_resource: web_secgroup }
+        key_pair: { get_param: key_pair }
+        flavor: { get_param: flavor }
+        image: { get_param: image }
+        name: frontend
+
+outputs:
+  instance_ip:
+    description: IP address of the deployed compute instance
+    value: { get_attr: [frontend, outputs, instance_ip] }
+  floating_ip:
+    description: Floating IP address of the FrontEnd
+    value: { get_attr: [frontend, outputs, floating_ip] }

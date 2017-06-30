@@ -1,0 +1,56 @@
+heat_template_version: 2015-10-15
+description: One VM instance
+
+parameters:
+    name:
+        type: string
+        label: Name for the VM
+    network:
+        type: string
+        label: Network for the VM
+    security_groups:
+        type: comma_delimited_list
+        label: SG for the VM
+    key_pair:
+        type: string
+        label: Key Pair
+        constraints:
+            - custom_constraint: nova.keypair
+    flavor:
+        type: string
+        label: Flavor
+        constraints:
+            - custom_constraint: nova.flavor
+    image:
+        type: string
+        label: Image Name
+        constraints:
+            - custom_constraint: glance.image
+resources:
+    # This port is a separate resource used to assign the security groups
+    # to the VM. Can also be used to attach a OS::Neutron::FloatingIP to the VM.
+    port:
+        type: OS::Neutron::Port
+        properties:
+            network: { get_param: network }
+            security_groups: { get_param: security_groups }
+
+    # Create instance
+    instance:
+        type: OS::Nova::Server
+        properties:
+            name: { get_param: name }
+            key_name: { get_param: key_pair }
+            image: { get_param: image }
+            flavor: { get_param: flavor }
+            availability_zone: Cloud Computing 2017
+            networks:
+                - port: { get_resource: port }
+
+outputs:
+  instance_ip:
+    description: IP address of the deployed compute instance
+    value: { get_attr: [instance, networks, fixed_ip] }
+  floating_ip:
+    description: Public IP address of the deployed compute instance
+    value: { get_attr: [instance, networks, floating_ip] }
