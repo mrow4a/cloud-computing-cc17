@@ -1,0 +1,10 @@
+[aws]
+awsKeyId = SOMEKEY
+awsSecret = SOMESECRET
+keyName = group32-key
+securityGroup = group32-securityGroup
+pemLocation = group32-key.pem
+
+[openstack]
+keyLocation = cloud.key
+opIP = 10.200.1.30
