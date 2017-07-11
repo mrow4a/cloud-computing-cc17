@@ -1,9 +1,8 @@
-[[TODO]]
 version: "3"
 services:
   web:
     # replace username/repo:tag with your name and image details
-    image: stefanstojkovski/cc17-frontend:1.0
+    image: mrow4a/frontend:latest
     deploy:
       replicas: 2
       restart_policy:
