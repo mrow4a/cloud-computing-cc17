@@ -7,9 +7,9 @@ STACK="$1"
 # Obtain information from OpenStack. It is important that the last two variables are named LC_* (see last comment in this script).
 # The three variables correspond to output variables of the server-landscape.yaml template.
 echo "Obtainining information about stack ${STACK}..."
-export MASTER_FLOATING=$(openstack stack show ${STACK} -f json | jq '. | .outputs | .[1] | .output_value' | sed -e 's/^"//' -e 's/"$//')
-export LC_MASTER_PRIVATE=$(openstack stack show ${STACK} -f json | jq '. | .outputs | .[2] | .output_value' | sed -e 's/^"//' -e 's/"$//')
-export LC_BACKEND_IPS=$(openstack stack show ${STACK} -f json | jq '. | .outputs | .[0] | .output_value' | sed -e 's/^"//' -e 's/"$//')
+export MASTER_FLOATING=$(openstack stack show ${STACK} -f json | jq '. | .outputs | .[1] | .output_value' | tr -d '"')
+export LC_MASTER_PRIVATE=$(openstack stack show ${STACK} -f json | jq '. | .outputs | .[2] | .output_value' | tr -d '"')
+export LC_BACKEND_IPS=$(openstack stack show ${STACK} -f json | jq '. | .outputs | .[0] | .output_value'| tr -d '"[]\n,'| tr -s " " | sed 's/^ *//')
 
 echo $MASTER_FLOATING
 echo $LC_MASTER_PRIVATE
@@ -32,7 +32,7 @@ read -d '' INIT_SCRIPT <<'xxxxxxxxxxxxxxxxx'
 sudo docker ps &> /dev/null || sudo service docker restart
 
 # Initialize the Docker swarm
-sudo docker swarm init
+sudo docker swarm init --advertise-addr ${LC_MASTER_PRIVATE}:2377 --listen-addr ${LC_MASTER_PRIVATE}:2377
 
 # Make sure the SSH connection to the backend servers works without user interaction
 SSHOPTS="-o StrictHostKeyChecking=no -o ConnectTimeout=3 -o BatchMode=yes"
@@ -52,11 +52,11 @@ backend_setup_2="docker swarm join --token ${TOKEN} ${LC_MASTER_PRIVATE}:2377"
 for i in $LC_BACKEND_IPS; do ssh $SSHOPTS ubuntu@$i "$backend_setup_1 && $backend_setup_2"; done
 
 # Launch the backend stack
-# sudo -E docker [[TODO]]
+# sudo -E docker stack deploy --compose-file docker-compose.yaml backendStack
 
 # Launch the frontend stack
 export CC_BACKEND_SERVERS="$LC_BACKEND_IPS"
-# sudo -E docker [[TODO]]
+# sudo -E docker stack deploy --compose-file docker-compose.yaml frontendStack
 
 xxxxxxxxxxxxxxxxx
 
