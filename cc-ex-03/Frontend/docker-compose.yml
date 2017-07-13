@@ -8,8 +8,13 @@ services:
       restart_policy:
         condition: on-failure
     ports:
-      - "8080:80"
+      - "80:80"
     networks:
       - webnet
+	environment:
+	  - CC_BACKEND_SERVERS = ${CC_BACKEND_SERVERS}
+	  - "constraint:node!=frontendStack-frontend"
+	volumes:
+      - "/etc:/hypervisor_etc"
 networks:
   webnet:
