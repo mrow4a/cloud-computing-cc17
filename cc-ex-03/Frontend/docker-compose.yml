@@ -1,8 +1,8 @@
 version: "3"
 services:
-  web:
-    # replace username/repo:tag with your name and image details
-    image: mrow4a/frontend:latest
+web:
+  # replace username/repo:tag with your name and image details
+	image: mrow4a/frontend:latest
 	deploy:
 	  replicas: 2
 	  restart_policy:
