@@ -1,11 +1,11 @@
 version: "3"
 services:
   web:
-	image: mrow4a/frontend:latest
+	image: "mrow4a/frontend:latest"
 	deploy:
 	  replicas: 2
 	  restart_policy:
-	    condition: on-failure
+	    condition: "on-failure"
 	ports:
 	   - "80:80"
 	networks:
