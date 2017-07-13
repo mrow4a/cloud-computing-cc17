@@ -10,7 +10,7 @@ services:
     ports:
       - "8000:80"
     networks:
-      - webnet
+	- webnet
 	environment:
 	  - "constraint:node!=group32-frontend"
 	volumes:

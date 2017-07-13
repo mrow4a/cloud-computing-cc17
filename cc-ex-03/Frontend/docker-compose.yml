@@ -10,7 +10,7 @@ services:
     ports:
       - "80:80"
     networks:
-      - webnet
+	- webnet
 	environment:  
 	  - CC_BACKEND_SERVERS = ${CC_BACKEND_SERVERS}
 	  - "constraint:node==group32-frontend"
