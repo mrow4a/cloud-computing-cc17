@@ -41,6 +41,9 @@ ssh-keyscan $LC_BACKEND_IPS > ~/.ssh/known_hosts
 # Obtain a token that can be used to join the swarm as a worker
 TOKEN=$(sudo docker swarm join-token worker -q)
 
+#Check that the token is correct
+echo $TOKEN
+
 # Prepare the script to execute on the backends to join the docker swarm.
 # First make sure that docker is running properly...
 backend_setup_1="{ sudo docker ps &> /dev/null || sudo service docker restart; }"
