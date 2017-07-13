@@ -13,7 +13,7 @@ services:
       - webnet
 	environment:
 	  - CC_BACKEND_SERVERS = ${CC_BACKEND_SERVERS}
-	  - "constraint:node!=frontendStack-frontend"
+	  - "constraint:node==frontendStack-frontend"
 	volumes:
       - "/etc:/hypervisor_etc"
 networks:

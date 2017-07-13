@@ -12,7 +12,7 @@ services:
     networks:
       - webnet
 	environment:
-	  - "constraint:node==frontendStack-frontend"
+	  - "constraint:node!=frontendStack-frontend"
 	volumes:
       - "/etc:/hypervisor_etc"
 networks:
