@@ -46,17 +46,17 @@ TOKEN=$(sudo docker swarm join-token worker -q)
 backend_setup_1="{ sudo docker ps &> /dev/null || sudo service docker restart; }"
 
 # ... then join the docker swarm on the frontend server
-backend_setup_2="docker swarm join --token ${TOKEN} ${LC_MASTER_PRIVATE}:2377"
+backend_setup_2="sudo docker swarm join --token ${TOKEN} ${LC_MASTER_PRIVATE}:2377"
 
 # Connect to the backend servers and make them join the swarm
 for i in $LC_BACKEND_IPS; do ssh $SSHOPTS ubuntu@$i "$backend_setup_1 && $backend_setup_2"; done
 
 # Launch the backend stack
-# sudo -E docker stack deploy --compose-file docker-compose.yaml backendStack
+# sudo -E docker stack deploy --compose-file Backend/docker-compose.yaml backendStack
 
 # Launch the frontend stack
 export CC_BACKEND_SERVERS="$LC_BACKEND_IPS"
-# sudo -E docker stack deploy --compose-file docker-compose.yaml frontendStack
+# sudo -E docker stack deploy --compose-file Frontend/docker-compose.yaml frontendStack
 
 xxxxxxxxxxxxxxxxx
 
