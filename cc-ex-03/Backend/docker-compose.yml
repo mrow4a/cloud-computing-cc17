@@ -9,7 +9,7 @@ services:
         condition: on-failure
     ports:
       - "8000:80"
-    networks:
+	networks:
 	- webnet
 	environment:
 	  - "constraint:node!=group32-frontend"
