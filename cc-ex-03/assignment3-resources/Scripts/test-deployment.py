@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/use/bin/env python3
 # Install requirement with: pip install requests
 import requests
 

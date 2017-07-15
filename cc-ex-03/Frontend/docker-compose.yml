@@ -1,19 +1,21 @@
 version: "3"
 services:
   web:
-  image: "mrow4a/frontend:latest"
-  deploy:
-    replicas: 2
-    restart_policy:
-      condition: "on-failure"
-  ports:
-     - "80:80"
-  networks:
-     - webnet
-  environment:  
-    - CC_BACKEND_SERVERS = ${CC_BACKEND_SERVERS}
-    - "constraint:node==group32-frontend"
-  volumes:
-      - "/etc:/hypervisor_etc"
+    image: "mrow4a/frontend:latest"
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: "on-failure"
+      placement:
+        constraints:
+            - node.hostname == group32-frontend
+    ports:
+       - "80:80"
+    networks:
+       - webnet
+    environment:
+      - CC_BACKEND_SERVERS = ${CC_BACKEND_SERVERS}
+    volumes:
+        - "/etc:/hypervisor_etc"
 networks:
   webnet:
