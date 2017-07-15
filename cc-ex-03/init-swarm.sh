@@ -75,12 +75,14 @@ for i in $LC_BACKEND_IPS; do ssh $SSHOPTS ubuntu@$i "$backend_setup_1 && $backen
 # Launch the backend stack
 echo
 echo "# Launch the backend stack"
+sudo docker stack rm backendStack
 sudo -E docker stack deploy --compose-file Backend/docker-compose.yml backendStack
 
 # Launch the frontend stack
 echo
 echo "# Launch the frontend stack"
 export CC_BACKEND_SERVERS="$LC_BACKEND_IPS"
+sudo docker stack rm frontendStack
 sudo -E docker stack deploy --compose-file Frontend/docker-compose.yml frontendStack
 
 xxxxxxxxxxxxxxxxx
@@ -92,7 +94,6 @@ xxxxxxxxxxxxxxxxx
 # Those variables are named LC_* because the default sshd config allows sending variables named like this.
 #ssh -o SendEnv="LC_MASTER_PRIVATE LC_BACKEND_IPS" -A ubuntu@$MASTER_FLOATING
 ssh -o SendEnv="LC_MASTER_PRIVATE LC_BACKEND_IPS" -A ubuntu@$MASTER_FLOATING "$INIT_SCRIPT"
-
 
 echo
 echo "If everything worked so far, you can execute the following to test your setup:"

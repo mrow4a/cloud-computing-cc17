@@ -7,17 +7,14 @@
 # WARNING: this script deletes all floating IPs and ports in your entire project, not only the ones that are part of a Heat stack!
 #
 # openstack command line client version: 3.11.0
-set -e -n
-
-test -n "$OS_TENANT_NAME" || { echo "Environment variable OS_TENANT_NAME is not set. Please set it to the name or ID of your project."; exit 1; }
-
-# Make sure no instance is running that could still be using a floating IP or port
-instances=$(openstack server list --project $OS_TENANT_NAME -f value -c ID)
-test -n "$instances" || { echo "There are still instances running for your project. Please delete them before executing this cleanup script."; exit 1; }
+echo "Starting"
+# Check parameters
+test $# = 1 || { echo "Need 1 parameter: Name of the stack to create"; exit 1; }
+STACK="$1"
 
 # Query all floating IPs and ports in the project
-floating_ips=$(openstack floating ip list --project $OS_TENANT_NAME -f value -c ID)
-port_ids=$(openstack port list --project $OS_TENANT_NAME -f value -c ID)
+floating_ips=$(openstack floating ip list -f value -c ID)
+port_ids=$(openstack port list -f value -c ID)
 
 echo "Deleting the following floating IP(s):" $floating_ips
 for i in $floating_ips; do
@@ -28,3 +25,5 @@ echo "Deleting the following port(s):" $port_ids
 for i in $port_ids; do
 	openstack port delete $i
 done
+
+openstack stack delete $STACK

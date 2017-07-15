@@ -14,5 +14,4 @@ RUN touch /hypervisor_etc/hostname && chmod +x /fix-nginx-conf.sh && ./fix-nginx
 # Expose port 80 - https://docs.docker.com/engine/reference/builder/#expose
 EXPOSE 80
 
-
 CMD service nginx restart

@@ -11,8 +11,6 @@ services:
             - node.hostname != group32-frontend
     ports:
        - "8000:80"
-    networks:
-       - webnet
     volumes:
         - "/etc:/hypervisor_etc"
 networks:

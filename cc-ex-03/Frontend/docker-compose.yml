@@ -11,10 +11,8 @@ services:
             - node.hostname == group32-frontend
     ports:
        - "80:80"
-    networks:
-       - webnet
     environment:
-      - CC_BACKEND_SERVERS = ${CC_BACKEND_SERVERS}
+      - CC_BACKEND_SERVERS=${CC_BACKEND_SERVERS}
     volumes:
         - "/etc:/hypervisor_etc"
 networks:
