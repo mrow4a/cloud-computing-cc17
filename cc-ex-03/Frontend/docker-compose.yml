@@ -15,3 +15,5 @@ services:
       - CC_BACKEND_SERVERS=${CC_BACKEND_SERVERS}
     volumes:
         - "/etc:/hypervisor_etc"
+networks:
+    frontendnet:

@@ -10,11 +10,11 @@ docker run --name backend -v /etc:/hypervisor_etc -d -p 8000:80 mrow4a/backend:l
 #docker build --build-arg CC_BACKEND_SERVERS=${CC_BS} -t "mrow4a/frontend" Frontend
 docker build -t "mrow4a/frontend" Frontend
 #docker run --name frontend --env CC_BACKEND_SERVERS=${CC_BACKEND_SERVERS} -v /etc:/hypervisor_etc -d -p 8080:80 mrow4a/frontend:latest
-docker run --name frontend --env CC_BACKEND_SERVERS=$CC_BACKEND_SERVERS -v /etc:/hypervisor_etc -d -p 8080:80 mrow4a/frontend:latest
+docker run --name frontend --env CC_BACKEND_SERVERS=$CC_BACKEND_SERVERS -v /etc:/hypervisor_etc -d -p 80:80 mrow4a/frontend:latest
 docker ps -a
-curl localhost:8080
-curl localhost:8080
-curl localhost:8080
+curl localhost:80
+curl localhost:80
+curl localhost:80
 
 docker rm -f backend && \
 docker push mrow4a/backend:latest && \
