@@ -1,6 +1,6 @@
 version: "3"
 services:
-  web:
+  backend:
     image: "mrow4a/backend:latest"
     deploy:
       replicas: 5
@@ -8,10 +8,8 @@ services:
         condition: "on-failure"
       placement:
         constraints:
-            - node.hostname != group32-frontend
+            - node.hostname != ${LC_STACK_FRONTEND}
     ports:
-       - "8000:80"
+      - "8000:80"
     volumes:
         - "/etc:/hypervisor_etc"
-networks:
-  webnet:

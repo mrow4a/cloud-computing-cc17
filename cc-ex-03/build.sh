@@ -5,7 +5,7 @@ docker rm -f frontend
 
 export CC_BACKEND_SERVERS="172.17.0.1"
 docker build -t "mrow4a/backend" Backend
-docker run --name backend -d -p 8000:80 mrow4a/backend:latest
+docker run --name backend -v /etc:/hypervisor_etc -d -p 8000:80 mrow4a/backend:latest
 
 #docker build --build-arg CC_BACKEND_SERVERS=${CC_BS} -t "mrow4a/frontend" Frontend
 docker build -t "mrow4a/frontend" Frontend

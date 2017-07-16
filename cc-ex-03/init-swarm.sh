@@ -2,18 +2,20 @@
 
 # Check parameters
 test $# = 1 || { echo "Need 1 parameter: name of stack that was created with server-landscape.yaml"; exit 1; }
-STACK="$1"
+export LC_STACK="$1"
 
 # Obtain information from OpenStack. It is important that the last two variables are named LC_* (see last comment in this script).
 # The three variables correspond to output variables of the server-landscape.yaml template.
-echo "Obtainining information about stack ${STACK}..."
-export MASTER_FLOATING=$(openstack stack show ${STACK} -f json | jq '. | .outputs | .[1] | .output_value' | tr -d '"')
-export LC_MASTER_PRIVATE=$(openstack stack show ${STACK} -f json | jq '. | .outputs | .[2] | .output_value' | tr -d '"')
-export LC_BACKEND_IPS=$(openstack stack show ${STACK} -f json | jq '. | .outputs | .[0] | .output_value'| tr -d '"[]\n,'| tr -s " " | sed 's/^ *//')
+echo "Obtainining information about stack ${LC_STACK}..."
+export MASTER_FLOATING=$(openstack stack show ${LC_STACK} -f json | jq '. | .outputs | .[1] | .output_value' | tr -d '"')
+export LC_MASTER_PRIVATE=$(openstack stack show ${LC_STACK} -f json | jq '. | .outputs | .[2] | .output_value' | tr -d '"')
+export LC_BACKEND_IPS=$(openstack stack show group32 -f json | jq '. | .outputs | .[0] | .output_value'| tr -d '"[]\n,'| tr -s " " | sed 's/^ *//' | tr ' ' \\t)
+
 
 echo $MASTER_FLOATING
 echo $LC_MASTER_PRIVATE
 echo $LC_BACKEND_IPS
+echo $LC_STACK_FRONTEND
 
 # Copy both docker-compose files to the frontend server
 scp -r Backend ubuntu@$MASTER_FLOATING:/home/ubuntu/
@@ -31,6 +33,9 @@ read -d '' INIT_SCRIPT <<'xxxxxxxxxxxxxxxxx'
 # Make sure Docker is running
 echo "# Make sure Docker is running"
 sudo docker ps &> /dev/null || sudo service docker restart
+
+export LC_STACK_FRONTEND="${LC_STACK}-frontend"
+echo ${LC_STACK_FRONTEND}
 
 # Leaving swarm
 echo
@@ -92,8 +97,8 @@ xxxxxxxxxxxxxxxxx
 
 # Execute the script on the frontend server. Make sure to pass along the two variables obtained from OpenStack above.
 # Those variables are named LC_* because the default sshd config allows sending variables named like this.
-#ssh -o SendEnv="LC_MASTER_PRIVATE LC_BACKEND_IPS" -A ubuntu@$MASTER_FLOATING
-ssh -o SendEnv="LC_MASTER_PRIVATE LC_BACKEND_IPS" -A ubuntu@$MASTER_FLOATING "$INIT_SCRIPT"
+#ssh -o SendEnv="LC_MASTER_PRIVATE LC_BACKEND_IPS LC_STACK" -A ubuntu@$MASTER_FLOATING
+ssh -o SendEnv="LC_MASTER_PRIVATE LC_BACKEND_IPS LC_STACK" -A ubuntu@$MASTER_FLOATING "$INIT_SCRIPT"
 
 echo
 echo "If everything worked so far, you can execute the following to test your setup:"
