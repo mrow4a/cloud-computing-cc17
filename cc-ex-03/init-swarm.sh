@@ -9,7 +9,7 @@ export LC_STACK="$1"
 echo "Obtainining information about stack ${LC_STACK}..."
 export MASTER_FLOATING=$(openstack stack show ${LC_STACK} -f json | jq '. | .outputs | .[1] | .output_value' | tr -d '"')
 export LC_MASTER_PRIVATE=$(openstack stack show ${LC_STACK} -f json | jq '. | .outputs | .[2] | .output_value' | tr -d '"')
-export LC_BACKEND_IPS=$(openstack stack show group32 -f json | jq '. | .outputs | .[0] | .output_value'| tr -d '"[]\n,'| tr -s " " | sed 's/^ *//' | tr ' ' \\t)
+export LC_BACKEND_IPS=$(openstack stack show ${LC_STACK} -f json | jq '. | .outputs | .[0] | .output_value'| tr -d '"[]\n,'| tr -s " " | sed 's/^ *//' | tr ' ' \\t)
 
 
 echo $MASTER_FLOATING
